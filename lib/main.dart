@@ -43,15 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
-  String? _resultString;
-  Map _resultDict = {
-    "label": "None",
-    "confidences": [
-      {"label": "None", "confidence": 0.0},
-      {"label": "None", "confidence": 0.0},
-      {"label": "None", "confidence": 0.0}
-    ]
-  };
   File? imageURI;
   Uint8List? imgBytes;
   bool isClassifying = false;
@@ -152,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(
                 height: 10,
               ),
-              Text("Microalgae Count: ${_microalgaeCount}",
+              Text("Microalgae Count: $_microalgaeCount",
                   style: Theme.of(context).textTheme.headline6),
               const SizedBox(height: 20),
               // buildResultsIndicators(_resultDict),
@@ -174,20 +165,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         imgBytes = imageURI!.readAsBytesSync();
                         String base64Image =
                             "data:image/png;base64," + base64Encode(imgBytes!);
-                        final result = await detectImage(base64Image);
+                        final result =
+                            await detectImage(base64Image, false, 0.5);
 
-                        final imgFiel =
+                        final imgFile =
                             await _createFileFromString(result['image']);
 
                         _btnController.reset();
 
                         setState(() {
-                          // _resultString = parseResultsIntoString(result);
-                          // _resultDict = result;
                           _microalgaeCount = result['count'];
-                          imageURI = imgFiel;
-                          // print(result['image']);
-                          // imageURI!.writeAsBytesSync(result['image']);
+                          imageURI = imgFile;
 
                           isClassifying = false;
                         });
@@ -216,15 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (pickedFile != null) {
                               // Clear result of previous inference as soon as new image is selected
                               setState(() {
-                                _resultString = "";
-                                _resultDict = {
-                                  "label": "None",
-                                  "confidences": [
-                                    {"label": "None", "confidence": 0.0},
-                                    {"label": "None", "confidence": 0.0},
-                                    {"label": "None", "confidence": 0.0}
-                                  ]
-                                };
+                                _microalgaeCount = 0;
                               });
 
                               File croppedFile = await cropImage(pickedFile);
@@ -247,15 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (pickedFile != null) {
                               // Clear result of previous inference as soon as new image is selected
                               setState(() {
-                                _resultString = "";
-                                _resultDict = {
-                                  "label": "None",
-                                  "confidences": [
-                                    {"label": "None", "confidence": 0.0},
-                                    {"label": "None", "confidence": 0.0},
-                                    {"label": "None", "confidence": 0.0}
-                                  ]
-                                };
+                                _microalgaeCount = 0;
                               });
 
                               File croppedFile = await cropImage(pickedFile);

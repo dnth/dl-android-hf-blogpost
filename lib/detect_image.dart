@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<Map> detectImage(String imageBase64) async {
+Future<Map> detectImage(
+    String imageBase64, bool label, double detectionThreshold) async {
   // Animefy the given image by requesting the gradio API of AnimeGANv2
   final response = await http.post(
     Uri.parse(
@@ -12,9 +13,9 @@ Future<Map> detectImage(String imageBase64) async {
     body: jsonEncode(<String, List<dynamic>>{
       'data': [
         imageBase64,
-        false,
+        label,
         true,
-        0.5
+        detectionThreshold
       ] // Input Image | Label | Box | Detection Threshold
     }),
   );
