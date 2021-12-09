@@ -9,6 +9,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:http/http.dart' as http;
+
 void main() {
   runApp(const MyApp());
 }
@@ -43,7 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
-  File? imageURI;
+  // File? imageURI;
+  String? imageURIWeb;
+  Uint8List? imageMemory;
   Uint8List? imgBytes;
   bool isClassifying = false;
   int _microalgaeCount = 0;
@@ -112,16 +117,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return croppedFile!;
   }
 
-  Future<File?> _createFileFromString(String base64ImageString) async {
-    final encodedStr = base64ImageString;
-    Uint8List bytes = base64.decode(encodedStr);
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = File(
-        "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
-    await file.writeAsBytes(bytes);
-    return file;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,48 +129,56 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              imageURI == null
+              imageMemory == null
                   ? const Text(
-                      'Select an image by pressing the camera icon and I will tell you my',
+                      'Select an image by pressing the shutter icon',
                       textAlign: TextAlign.center,
                     )
-                  : Image.file(imageURI!, height: 300, fit: BoxFit.cover),
+                  : SizedBox(
+                      height: 300,
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Image.memory(
+                          imageMemory!,
+                          fit: BoxFit.cover,
+                        ),
+                      )),
               const SizedBox(
                 height: 10,
               ),
               Text("Microalgae Count: $_microalgaeCount",
                   style: Theme.of(context).textTheme.headline6),
               const SizedBox(height: 20),
-              // buildResultsIndicators(_resultDict),
-              // const SizedBox(
-              //   height: 10,
-              // ),
               RoundedLoadingButton(
                 width: MediaQuery.of(context).size.width,
                 child:
                     const Text('Count!', style: TextStyle(color: Colors.white)),
                 controller: _btnController,
-                onPressed: isClassifying || imageURI == null
+                onPressed: isClassifying || (imageMemory == null)
                     ? null // null value disables the button
                     : () async {
                         setState(() {
                           isClassifying = true;
                         });
 
-                        imgBytes = imageURI!.readAsBytesSync();
+                        if (kIsWeb) {
+                          imgBytes = imageMemory;
+                        } else {
+                          imgBytes = imageMemory;
+                        }
+
                         String base64Image =
                             "data:image/png;base64," + base64Encode(imgBytes!);
+
                         final result =
                             await detectImage(base64Image, false, 0.5);
-
-                        final imgFile =
-                            await _createFileFromString(result['image']);
 
                         _btnController.reset();
 
                         setState(() {
                           _microalgaeCount = result['count'];
-                          imageURI = imgFile;
+
+                          imageMemory = base64Decode(result['image']);
 
                           isClassifying = false;
                         });
@@ -186,8 +189,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet<void>(
+        onPressed: () async {
+          if (kIsWeb) {
+            // running on the web!
+            print("Operating on web");
+
+            final pickedFile =
+                await ImagePicker().pickImage(source: ImageSource.gallery);
+
+            final img = await pickedFile!.readAsBytes();
+
+            setState(() {
+              // imageURIWeb = pickedFile!.path;
+              imageMemory = img;
+            });
+          } else {
+            showModalBottomSheet<void>(
               context: context,
               builder: (BuildContext context) {
                 return Container(
@@ -211,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               final imgFile = File(croppedFile.path);
 
                               setState(() {
-                                imageURI = imgFile;
+                                imageMemory = imgFile.readAsBytesSync();
                               });
                               Navigator.pop(context);
                             }
@@ -234,7 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               final imgFile = File(croppedFile.path);
 
                               setState(() {
-                                imageURI = imgFile;
+                                imageMemory = imgFile.readAsBytesSync();
                               });
                               Navigator.pop(context);
                             }
@@ -242,7 +259,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         )
                       ],
                     ));
-              });
+              },
+            );
+          }
         },
         child: const Icon(Icons.camera),
       ),
