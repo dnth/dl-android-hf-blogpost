@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_microalgae/detect_image.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -52,44 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Uint8List? imgBytes;
   bool isClassifying = false;
   int _microalgaeCount = 0;
-
-  String parseResultsIntoString(Map results) {
-    return """
-    ${results['confidences'][0]['label']} - ${(results['confidences'][0]['confidence'] * 100.0).toStringAsFixed(2)}% \n
-    ${results['confidences'][1]['label']} - ${(results['confidences'][1]['confidence'] * 100.0).toStringAsFixed(2)}% \n
-    ${results['confidences'][2]['label']} - ${(results['confidences'][2]['confidence'] * 100.0).toStringAsFixed(2)}% """;
-  }
-
-  Widget buildPercentIndicator(String className, double classConfidence) {
-    return LinearPercentIndicator(
-      width: 200.0,
-      lineHeight: 18.0,
-      percent: classConfidence,
-      center: Text(
-        "${(classConfidence * 100.0).toStringAsFixed(2)} %",
-        style: const TextStyle(fontSize: 12.0),
-      ),
-      trailing: Text(className),
-      leading: const Icon(Icons.arrow_forward_ios),
-      linearStrokeCap: LinearStrokeCap.roundAll,
-      backgroundColor: Colors.grey,
-      progressColor: Colors.blue,
-      animation: true,
-    );
-  }
-
-  Widget buildResultsIndicators(Map resultsDict) {
-    return Column(
-      children: [
-        buildPercentIndicator(resultsDict['confidences'][0]['label'],
-            (resultsDict['confidences'][0]['confidence'])),
-        buildPercentIndicator(resultsDict['confidences'][1]['label'],
-            (resultsDict['confidences'][1]['confidence'])),
-        buildPercentIndicator(resultsDict['confidences'][2]['label'],
-            (resultsDict['confidences'][2]['confidence']))
-      ],
-    );
-  }
 
   Future<File> cropImage(XFile pickedFile) async {
     // Crop image here
