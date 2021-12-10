@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_microalgae/detect_image.dart';
@@ -61,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // File? imageURI;
   // String? imageURIWeb;
-  Uint8List? imageMemory;
+  // Uint8List? imageMemory;
   Uint8List? imgBytes;
   bool isClassifying = false;
   int _microalgaeCount = 0;
@@ -109,13 +110,20 @@ class _MyHomePageState extends State<MyHomePage> {
                               final bytes = await readNetworkImage(imgUrl);
 
                               setState(() {
-                                imageMemory = bytes;
+                                imgBytes = bytes;
                               });
 
                               print("Tapped on image ${imgList.indexOf(item)}");
                             },
-                            child: Image.network(item,
-                                fit: BoxFit.cover, height: 1000.0)),
+                            child: CachedNetworkImage(
+                              imageUrl: item,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            )),
+                        // child: Image.network(item, fit: BoxFit.cover)),
                         Positioned(
                           bottom: 0.0,
                           left: 0.0,
@@ -134,10 +142,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 20.0),
                             child: Text(
-                              'No. ${imgList.indexOf(item)} image',
+                              'Sample ${imgList.indexOf(item)}',
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -161,14 +169,15 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               CarouselSlider(
                 options: CarouselOptions(
-                  height: 200,
+                  // height: 200,
                   autoPlay: true,
-                  aspectRatio: 2.0,
+                  aspectRatio: 2.5,
                   enlargeCenterPage: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
                 ),
                 items: imageSliders,
               ),
-              imageMemory == null
+              imgBytes == null
                   ? const Text(
                       'Select a sample image above or upload your own image by pressing the shutter icon',
                       textAlign: TextAlign.center,
@@ -178,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: AspectRatio(
                         aspectRatio: 1,
                         child: Image.memory(
-                          imageMemory!,
+                          imgBytes!,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -194,14 +203,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 child:
                     const Text('Count!', style: TextStyle(color: Colors.white)),
                 controller: _btnController,
-                onPressed: isClassifying || (imageMemory == null)
+                onPressed: isClassifying || (imgBytes == null)
                     ? null // null value disables the button
                     : () async {
                         setState(() {
                           isClassifying = true;
                         });
-
-                        imgBytes = imageMemory;
 
                         String base64Image =
                             "data:image/png;base64," + base64Encode(imgBytes!);
@@ -214,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         setState(() {
                           _microalgaeCount = result['count'];
 
-                          imageMemory = base64Decode(result['image']);
+                          imgBytes = base64Decode(result['image']);
 
                           isClassifying = false;
                         });
@@ -237,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
             setState(() {
               // imageURIWeb = pickedFile!.path;
-              imageMemory = img;
+              imgBytes = img;
             });
           } else {
             showModalBottomSheet<void>(
@@ -264,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               final imgFile = File(croppedFile.path);
 
                               setState(() {
-                                imageMemory = imgFile.readAsBytesSync();
+                                imgBytes = imgFile.readAsBytesSync();
                               });
                               Navigator.pop(context);
                             }
@@ -287,7 +294,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               final imgFile = File(croppedFile.path);
 
                               setState(() {
-                                imageMemory = imgFile.readAsBytesSync();
+                                imgBytes = imgFile.readAsBytesSync();
                               });
                               Navigator.pop(context);
                             }
