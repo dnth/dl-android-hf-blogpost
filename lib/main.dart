@@ -111,6 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                               setState(() {
                                 imgBytes = bytes;
+                                _microalgaeCount = 0;
                               });
 
                               print("Tapped on image ${imgList.indexOf(item)}");
@@ -119,9 +120,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               imageUrl: item,
                               fit: BoxFit.cover,
                               placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
+                                  const CircularProgressIndicator(),
                               errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                                  const Icon(Icons.error),
                             )),
                         // child: Image.network(item, fit: BoxFit.cover)),
                         Positioned(
@@ -167,16 +168,22 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              const Text("Sample Images"),
               CarouselSlider(
                 options: CarouselOptions(
                   // height: 200,
                   autoPlay: true,
                   aspectRatio: 2.5,
+                  viewportFraction: 0.45,
                   enlargeCenterPage: true,
                   enlargeStrategy: CenterPageEnlargeStrategy.height,
                 ),
                 items: imageSliders,
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text("Sample Prediction"),
               imgBytes == null
                   ? const Text(
                       'Select a sample image above or upload your own image by pressing the shutter icon',
@@ -199,6 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: Theme.of(context).textTheme.headline6),
               const SizedBox(height: 20),
               RoundedLoadingButton(
+                color: Theme.of(context).primaryColor,
                 width: MediaQuery.of(context).size.width,
                 child:
                     const Text('Count!', style: TextStyle(color: Colors.white)),
@@ -232,6 +240,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightBlueAccent,
         onPressed: () async {
           if (kIsWeb) {
             // running on the web!
