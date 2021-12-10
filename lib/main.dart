@@ -11,6 +11,10 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import 'package:http/http.dart' as http;
+
+import 'package:dio/dio.dart';
+
 final List<String> imgList = [
   'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151351.jpg?raw=true',
   'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151438.jpg?raw=true',
@@ -25,6 +29,37 @@ Future<Uint8List> readNetworkImage(String imageUrl) async {
   final Uint8List bytes = data.buffer.asUint8List();
   return bytes;
 }
+
+void readNetworkImageWeb(String imgUrl) async {
+  try {
+    var response = await Dio().get('http://www.google.com');
+    print(response);
+  } catch (e) {
+    print(e);
+  }
+}
+
+// Future<void> readNetworkImageWeb(String theUrl) async {
+//   var dio = Dio();
+//   final response = await dio.get('https://google.com');
+//   print(response.data);
+// }
+
+// // Reading bytes from a network image
+// Future<Uint8List> readNetworkImageWeb(String imageUrl) async {
+//   var response = await get(Uri.parse(imageUrl));
+//   var documentDirectory = await getApplicationDocumentsDirectory();
+//   var firstPath = documentDirectory.path + "/images";
+//   var filePathAndName = documentDirectory.path + '/images/pic.jpg';
+
+//   //comment out the next three lines to prevent the image from being saved
+//   //to the device to show that it's coming from the internet
+//   await Directory(firstPath).create(recursive: true); // <-- 1
+//   File file2 = new File(filePathAndName); // <-- 2
+//   file2.writeAsBytesSync(response.bodyBytes); // <-- 3
+
+//   return file2.readAsBytesSync();
+// }
 
 void main() {
   runApp(const MyApp());
@@ -107,12 +142,20 @@ class _MyHomePageState extends State<MyHomePage> {
                             onTap: () async {
                               String imgUrl = imgList[imgList.indexOf(item)];
 
-                              final bytes = await readNetworkImage(imgUrl);
-
-                              setState(() {
-                                imgBytes = bytes;
-                                _microalgaeCount = 0;
-                              });
+                              if (kIsWeb) {
+                                readNetworkImageWeb(imgUrl);
+                                // final bytes = await readNetworkImageWeb(imgUrl);
+                                // setState(() {
+                                //   imgBytes = bytes;
+                                //   _microalgaeCount = 0;
+                                // });
+                              } else {
+                                final bytes = await readNetworkImage(imgUrl);
+                                setState(() {
+                                  imgBytes = bytes;
+                                  _microalgaeCount = 0;
+                                });
+                              }
 
                               print("Tapped on image ${imgList.indexOf(item)}");
                             },
@@ -168,18 +211,20 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text("Sample Images"),
-              CarouselSlider(
-                options: CarouselOptions(
-                  // height: 200,
-                  autoPlay: true,
-                  aspectRatio: 2.5,
-                  viewportFraction: 0.45,
-                  enlargeCenterPage: true,
-                  enlargeStrategy: CenterPageEnlargeStrategy.height,
-                ),
-                items: imageSliders,
-              ),
+              !kIsWeb ? const Text("Sample Images") : Container(),
+              !kIsWeb
+                  ? CarouselSlider(
+                      options: CarouselOptions(
+                        // height: 400,
+                        autoPlay: true,
+                        aspectRatio: 2.5,
+                        viewportFraction: 0.45,
+                        enlargeCenterPage: true,
+                        enlargeStrategy: CenterPageEnlargeStrategy.height,
+                      ),
+                      items: imageSliders,
+                    )
+                  : Container(),
               const SizedBox(
                 height: 10,
               ),
@@ -207,7 +252,7 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(height: 20),
               RoundedLoadingButton(
                 color: Theme.of(context).primaryColor,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width * 0.8,
                 child:
                     const Text('Count!', style: TextStyle(color: Colors.white)),
                 controller: _btnController,
