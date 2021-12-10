@@ -7,13 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_microalgae/detect_image.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:juxtapose/juxtapose.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
-import 'package:http/http.dart' as http;
-
-import 'package:dio/dio.dart';
 
 final List<String> imgList = [
   'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151351.jpg?raw=true',
@@ -30,37 +27,6 @@ Future<Uint8List> readNetworkImage(String imageUrl) async {
   final Uint8List bytes = data.buffer.asUint8List();
   return bytes;
 }
-
-void readNetworkImageWeb(String imgUrl) async {
-  try {
-    var response = await Dio().get('http://www.google.com');
-    print(response);
-  } catch (e) {
-    print(e);
-  }
-}
-
-// Future<void> readNetworkImageWeb(String theUrl) async {
-//   var dio = Dio();
-//   final response = await dio.get('https://google.com');
-//   print(response.data);
-// }
-
-// // Reading bytes from a network image
-// Future<Uint8List> readNetworkImageWeb(String imageUrl) async {
-//   var response = await get(Uri.parse(imageUrl));
-//   var documentDirectory = await getApplicationDocumentsDirectory();
-//   var firstPath = documentDirectory.path + "/images";
-//   var filePathAndName = documentDirectory.path + '/images/pic.jpg';
-
-//   //comment out the next three lines to prevent the image from being saved
-//   //to the device to show that it's coming from the internet
-//   await Directory(firstPath).create(recursive: true); // <-- 1
-//   File file2 = new File(filePathAndName); // <-- 2
-//   file2.writeAsBytesSync(response.bodyBytes); // <-- 3
-
-//   return file2.readAsBytesSync();
-// }
 
 void main() {
   runApp(const MyApp());
@@ -96,10 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
-  // File? imageURI;
-  // String? imageURIWeb;
-  // Uint8List? imageMemory;
-  Uint8List? imgBytes;
+  Uint8List? imgBytesInput;
+  Uint8List? imgBytesInference;
   bool isClassifying = false;
   int _microalgaeCount = 0;
 
@@ -144,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               String imgUrl = imgList[imgList.indexOf(item)];
 
                               if (kIsWeb) {
-                                readNetworkImageWeb(imgUrl);
+                                // readNetworkImageWeb(imgUrl);
                                 // final bytes = await readNetworkImageWeb(imgUrl);
                                 // setState(() {
                                 //   imgBytes = bytes;
@@ -153,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               } else {
                                 final bytes = await readNetworkImage(imgUrl);
                                 setState(() {
-                                  imgBytes = bytes;
+                                  imgBytesInput = bytes;
                                   _microalgaeCount = 0;
                                 });
                               }
@@ -232,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 10,
                 ),
                 const Text("Sample Prediction"),
-                imgBytes == null
+                imgBytesInput == null
                     ? const Text(
                         'Select a sample image above or upload your own image by pressing the shutter icon',
                         textAlign: TextAlign.center,
@@ -241,10 +205,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 300,
                         child: AspectRatio(
                           aspectRatio: 1,
-                          child: Image.memory(
-                            imgBytes!,
-                            fit: BoxFit.cover,
+                          child: Juxtapose(
+                            backgroundColor: Color(0xFF012747),
+                            foregroundWidget: Image.memory(imgBytesInput!),
+                            backgroundWidget: Image.memory(
+                                imgBytesInference ?? imgBytesInput!),
                           ),
+                          // child: Image.memory(
+                          //   imgBytesInput!,
+                          //   fit: BoxFit.cover,
+                          // ),
                         ),
                       ),
                 const SizedBox(
@@ -259,7 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text('Count!',
                       style: TextStyle(color: Colors.white)),
                   controller: _btnController,
-                  onPressed: isClassifying || (imgBytes == null)
+                  onPressed: isClassifying || (imgBytesInput == null)
                       ? null // null value disables the button
                       : () async {
                           setState(() {
@@ -267,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           });
 
                           String base64Image = "data:image/png;base64," +
-                              base64Encode(imgBytes!);
+                              base64Encode(imgBytesInput!);
 
                           final result =
                               await detectImage(base64Image, false, 0.5);
@@ -277,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           setState(() {
                             _microalgaeCount = result['count'];
 
-                            imgBytes = base64Decode(result['image']);
+                            imgBytesInference = base64Decode(result['image']);
 
                             isClassifying = false;
                           });
@@ -302,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
             setState(() {
               // imageURIWeb = pickedFile!.path;
-              imgBytes = img;
+              imgBytesInput = img;
             });
           } else {
             showModalBottomSheet<void>(
@@ -329,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               final imgFile = File(croppedFile.path);
 
                               setState(() {
-                                imgBytes = imgFile.readAsBytesSync();
+                                imgBytesInput = imgFile.readAsBytesSync();
                               });
                               Navigator.pop(context);
                             }
@@ -352,7 +322,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               final imgFile = File(croppedFile.path);
 
                               setState(() {
-                                imgBytes = imgFile.readAsBytesSync();
+                                imgBytesInput = imgFile.readAsBytesSync();
                               });
                               Navigator.pop(context);
                             }

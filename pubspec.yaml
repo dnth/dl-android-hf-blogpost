@@ -43,6 +43,7 @@ dependencies:
   cached_network_image: ^3.2.0
   universal_io: ^2.0.4
   dio: ^4.0.4
+  juxtapose: ^1.2.0
 
 dev_dependencies:
   flutter_test:
