@@ -206,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: AspectRatio(
                           aspectRatio: 1,
                           child: Juxtapose(
-                            backgroundColor: Color(0xFF012747),
+                            showArrows: true,
                             foregroundWidget: Image.memory(imgBytesInput!),
                             backgroundWidget: Image.memory(
                                 imgBytesInference ?? imgBytesInput!),
