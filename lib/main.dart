@@ -8,9 +8,11 @@ import 'package:flutter_microalgae/detect_image.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:juxtapose/juxtapose.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:permission_handler/permission_handler.dart';
 
 final List<String> imgList = [
   'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151351.jpg?raw=true',
@@ -27,6 +29,23 @@ Future<Uint8List> readNetworkImage(String imageUrl) async {
   final Uint8List bytes = data.buffer.asUint8List();
   return bytes;
 }
+
+// Future<bool> writeToFile(Uint8List data) async {
+//   final status = await Permission.storage.request();
+
+//   if (status.isGranted) {
+//     final directory = await getExternalStorageDirectory();
+
+//     String tempPath = directory!.path;
+//     var filePath = tempPath + '/file_01.jpg';
+//     print(filePath);
+
+//     final file = File(filePath);
+//     await file.writeAsBytes(data);
+//     return true;
+//   } else
+//     return false;
+// }
 
 void main() {
   runApp(const MyApp());
@@ -169,6 +188,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () async {
+        //         try {
+        //           await writeToFile(imgBytesInference!); // <= returns File
+        //         } catch (e) {
+        //           // catch errors here
+        //           print(e);
+        //         }
+        //       },
+        //       icon: const Icon(Icons.download))
+        // ],
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
