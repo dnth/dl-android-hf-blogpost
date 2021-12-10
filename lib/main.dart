@@ -18,8 +18,9 @@ import 'package:dio/dio.dart';
 final List<String> imgList = [
   'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151351.jpg?raw=true',
   'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151438.jpg?raw=true',
+  'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151559.jpg?raw=true',
   'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151844.jpg?raw=true',
-  'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_153614.jpg?raw=true'
+  'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_153614.jpg?raw=true',
 ];
 
 // Reading bytes from a network image
@@ -205,82 +206,85 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              !kIsWeb ? const Text("Sample Images") : Container(),
-              !kIsWeb
-                  ? CarouselSlider(
-                      options: CarouselOptions(
-                        // height: 400,
-                        autoPlay: true,
-                        aspectRatio: 2.5,
-                        viewportFraction: 0.45,
-                        enlargeCenterPage: true,
-                        enlargeStrategy: CenterPageEnlargeStrategy.height,
-                      ),
-                      items: imageSliders,
-                    )
-                  : Container(),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text("Sample Prediction"),
-              imgBytes == null
-                  ? const Text(
-                      'Select a sample image above or upload your own image by pressing the shutter icon',
-                      textAlign: TextAlign.center,
-                    )
-                  : SizedBox(
-                      height: 300,
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: Image.memory(
-                          imgBytes!,
-                          fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                !kIsWeb ? const Text("Sample Images") : Container(),
+                !kIsWeb
+                    ? CarouselSlider(
+                        options: CarouselOptions(
+                          // height: 400,
+                          autoPlay: true,
+                          aspectRatio: 2.5,
+                          viewportFraction: 0.45,
+                          enlargeCenterPage: true,
+                          enlargeStrategy: CenterPageEnlargeStrategy.height,
+                        ),
+                        items: imageSliders,
+                      )
+                    : Container(),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text("Sample Prediction"),
+                imgBytes == null
+                    ? const Text(
+                        'Select a sample image above or upload your own image by pressing the shutter icon',
+                        textAlign: TextAlign.center,
+                      )
+                    : SizedBox(
+                        height: 300,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: Image.memory(
+                            imgBytes!,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text("Microalgae Count: $_microalgaeCount",
-                  style: Theme.of(context).textTheme.headline6),
-              const SizedBox(height: 20),
-              RoundedLoadingButton(
-                color: Theme.of(context).primaryColor,
-                width: MediaQuery.of(context).size.width * 0.8,
-                child:
-                    const Text('Count!', style: TextStyle(color: Colors.white)),
-                controller: _btnController,
-                onPressed: isClassifying || (imgBytes == null)
-                    ? null // null value disables the button
-                    : () async {
-                        setState(() {
-                          isClassifying = true;
-                        });
+                const SizedBox(
+                  height: 10,
+                ),
+                Text("Microalgae Count: $_microalgaeCount",
+                    style: Theme.of(context).textTheme.headline6),
+                const SizedBox(height: 20),
+                RoundedLoadingButton(
+                  color: Theme.of(context).primaryColor,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: const Text('Count!',
+                      style: TextStyle(color: Colors.white)),
+                  controller: _btnController,
+                  onPressed: isClassifying || (imgBytes == null)
+                      ? null // null value disables the button
+                      : () async {
+                          setState(() {
+                            isClassifying = true;
+                          });
 
-                        String base64Image =
-                            "data:image/png;base64," + base64Encode(imgBytes!);
+                          String base64Image = "data:image/png;base64," +
+                              base64Encode(imgBytes!);
 
-                        final result =
-                            await detectImage(base64Image, false, 0.5);
+                          final result =
+                              await detectImage(base64Image, false, 0.5);
 
-                        _btnController.reset();
+                          _btnController.reset();
 
-                        setState(() {
-                          _microalgaeCount = result['count'];
+                          setState(() {
+                            _microalgaeCount = result['count'];
 
-                          imgBytes = base64Decode(result['image']);
+                            imgBytes = base64Decode(result['image']);
 
-                          isClassifying = false;
-                        });
-                      },
-              ),
-            ],
+                            isClassifying = false;
+                          });
+                        },
+                ),
+              ],
+            ),
           ),
         ),
       ),
