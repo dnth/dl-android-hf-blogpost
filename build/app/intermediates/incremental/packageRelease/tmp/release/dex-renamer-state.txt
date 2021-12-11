@@ -1,0 +1,4 @@
+#Thu Dec 09 22:45:18 MYT 2021
+base.0=/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

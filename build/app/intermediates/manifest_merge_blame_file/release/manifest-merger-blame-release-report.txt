@@ -1,0 +1,118 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.flutter_microalgae"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+8-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="30" />
+9-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:3:5-66
+11-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:3:22-64
+12    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+12-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:4:5-80
+12-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:4:22-78
+13
+14    <application
+14-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:5:4-50:19
+15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+15-->[androidx.core:core:1.5.0] /home/dnth/.gradle/caches/transforms-2/files-2.1/347814567c8fb3becfdf858e9729d475/core-1.5.0/AndroidManifest.xml:24:18-86
+16        android:icon="@mipmap/ic_launcher"
+16-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:7:9-43
+17        android:label="flutter_microalgae" >
+17-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:6:9-43
+18        <activity
+18-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:9:9-12:67
+19            android:name="com.yalantis.ucrop.UCropActivity"
+19-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:10:9-56
+20            android:screenOrientation="portrait"
+20-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:11:9-45
+21            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+21-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:12:9-65
+22        <activity
+22-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:16:9-44:20
+23            android:name="com.example.flutter_microalgae.MainActivity"
+23-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:17:13-41
+24            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+24-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:20:13-163
+25            android:hardwareAccelerated="true"
+25-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:21:13-47
+26            android:launchMode="singleTop"
+26-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:18:13-43
+27            android:theme="@style/LaunchTheme"
+27-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:19:13-47
+28            android:windowSoftInputMode="adjustResize" >
+28-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:22:13-55
+29
+30            <!--
+31                 Specifies an Android theme to apply to this Activity as soon as
+32                 the Android process has started. This theme is visible to the user
+33                 while the Flutter UI initializes. After that, this theme continues
+34                 to determine the Window background behind the Flutter UI.
+35            -->
+36            <meta-data
+36-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:27:13-30:17
+37                android:name="io.flutter.embedding.android.NormalTheme"
+37-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:28:15-70
+38                android:resource="@style/NormalTheme" />
+38-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:29:15-52
+39            <!--
+40                 Displays an Android View that continues showing the launch screen
+41                 Drawable until Flutter paints its first frame, then this splash
+42                 screen fades out. A splash screen is useful to avoid any visual
+43                 gap between the end of Android's launch screen and the painting of
+44                 Flutter's first frame.
+45            -->
+46            <meta-data
+46-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:36:13-39:17
+47                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+47-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:37:15-79
+48                android:resource="@drawable/launch_background" />
+48-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:38:15-61
+49
+50            <intent-filter>
+50-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:40:13-43:29
+51                <action android:name="android.intent.action.MAIN" />
+51-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:41:17-68
+51-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:41:25-66
+52
+53                <category android:name="android.intent.category.LAUNCHER" />
+53-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:42:17-76
+53-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:42:27-74
+54            </intent-filter>
+55        </activity>
+56        <!--
+57             Don't delete the meta-data below.
+58             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+59        -->
+60        <meta-data
+60-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:47:9-49:33
+61            android:name="flutterEmbedding"
+61-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:48:13-44
+62            android:value="2" />
+62-->/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/android/app/src/main/AndroidManifest.xml:49:13-30
+63
+64        <provider
+64-->[:image_picker] /media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_picker/intermediates/library_manifest/release/AndroidManifest.xml:8:9-16:20
+65            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+65-->[:image_picker] /media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_picker/intermediates/library_manifest/release/AndroidManifest.xml:9:13-82
+66            android:authorities="com.example.flutter_microalgae.flutter.image_provider"
+66-->[:image_picker] /media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_picker/intermediates/library_manifest/release/AndroidManifest.xml:10:13-74
+67            android:exported="false"
+67-->[:image_picker] /media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_picker/intermediates/library_manifest/release/AndroidManifest.xml:11:13-37
+68            android:grantUriPermissions="true" >
+68-->[:image_picker] /media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_picker/intermediates/library_manifest/release/AndroidManifest.xml:12:13-47
+69            <meta-data
+69-->[:image_picker] /media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_picker/intermediates/library_manifest/release/AndroidManifest.xml:13:13-15:75
+70                android:name="android.support.FILE_PROVIDER_PATHS"
+70-->[:image_picker] /media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_picker/intermediates/library_manifest/release/AndroidManifest.xml:14:17-67
+71                android:resource="@xml/flutter_image_picker_file_paths" />
+71-->[:image_picker] /media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_picker/intermediates/library_manifest/release/AndroidManifest.xml:15:17-72
+72        </provider>
+73    </application>
+74
+75</manifest>

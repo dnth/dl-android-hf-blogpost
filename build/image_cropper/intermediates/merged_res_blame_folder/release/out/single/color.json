@@ -1,0 +1,90 @@
+[
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_tint_btn_checkable.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_search_url_text.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_search_url_text.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_primary_text_disable_only_material_dark.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_primary_text_disable_only_material_dark.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_btn_colored_text_material.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_btn_colored_text_material.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_tint_edittext.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_tint_edittext.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_tint_seek_thumb.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_tint_seek_thumb.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_tint_switch_track.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_tint_switch_track.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_primary_text_disable_only_material_light.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_primary_text_disable_only_material_light.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_tint_default.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_tint_default.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_secondary_text_material_light.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_secondary_text_material_light.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_tint_spinner.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_hint_foreground_material_dark.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_hint_foreground_material_dark.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/switch_thumb_material_light.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/switch_thumb_material_light.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/ucrop_scale_text_view_selector.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/d1358b8b78b17adf4959161e9a36fa76/jetified-ucrop-2.2.7/res/color/ucrop_scale_text_view_selector.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_hint_foreground_material_light.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_hint_foreground_material_light.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/switch_thumb_material_dark.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/switch_thumb_material_dark.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_background_cache_hint_selector_material_light.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_primary_text_material_light.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_primary_text_material_light.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_secondary_text_material_dark.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_secondary_text_material_dark.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_primary_text_material_dark.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_primary_text_material_dark.xml"
+    },
+    {
+        "merged": "/media/dnth/HDD Storage/CODEBASE/flutter_microalgae/build/image_cropper/intermediates/res/merged/release/color/abc_btn_colored_borderless_text_material.xml",
+        "source": "/home/dnth/.gradle/caches/transforms-2/files-2.1/deb78727792fa6d8d7b2bc5d7e053da7/appcompat-1.3.0/res/color/abc_btn_colored_borderless_text_material.xml"
+    }
+]
