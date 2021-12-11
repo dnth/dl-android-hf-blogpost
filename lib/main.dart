@@ -137,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 final bytes = await readNetworkImage(imgUrl);
                                 setState(() {
                                   imgBytesInput = bytes;
+                                  imgBytesInference = imgBytesInput;
                                   _microalgaeCount = 0;
                                 });
                               }
@@ -331,6 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                               setState(() {
                                 imgBytesInput = imgFile.readAsBytesSync();
+                                imgBytesInference = imgBytesInput;
                               });
                               Navigator.pop(context);
                             }
@@ -354,6 +356,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                               setState(() {
                                 imgBytesInput = imgFile.readAsBytesSync();
+                                imgBytesInference = imgBytesInput;
                               });
                               Navigator.pop(context);
                             }
