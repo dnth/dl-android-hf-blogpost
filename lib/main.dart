@@ -7,13 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_microalgae/detect_image.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:juxtapose/juxtapose.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:permission_handler/permission_handler.dart';
 
-import 'package:http/http.dart' as http;
-
-import 'package:dio/dio.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 final List<String> imgList = [
   'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151351.jpg?raw=true',
@@ -31,35 +32,21 @@ Future<Uint8List> readNetworkImage(String imageUrl) async {
   return bytes;
 }
 
-void readNetworkImageWeb(String imgUrl) async {
-  try {
-    var response = await Dio().get('http://www.google.com');
-    print(response);
-  } catch (e) {
-    print(e);
-  }
-}
+// Future<bool> writeToFile(Uint8List data) async {
+//   final status = await Permission.storage.request();
 
-// Future<void> readNetworkImageWeb(String theUrl) async {
-//   var dio = Dio();
-//   final response = await dio.get('https://google.com');
-//   print(response.data);
-// }
+//   if (status.isGranted) {
+//     final directory = await getExternalStorageDirectory();
 
-// // Reading bytes from a network image
-// Future<Uint8List> readNetworkImageWeb(String imageUrl) async {
-//   var response = await get(Uri.parse(imageUrl));
-//   var documentDirectory = await getApplicationDocumentsDirectory();
-//   var firstPath = documentDirectory.path + "/images";
-//   var filePathAndName = documentDirectory.path + '/images/pic.jpg';
+//     String tempPath = directory!.path;
+//     var filePath = tempPath + '/file_01.jpg';
+//     print(filePath);
 
-//   //comment out the next three lines to prevent the image from being saved
-//   //to the device to show that it's coming from the internet
-//   await Directory(firstPath).create(recursive: true); // <-- 1
-//   File file2 = new File(filePathAndName); // <-- 2
-//   file2.writeAsBytesSync(response.bodyBytes); // <-- 3
-
-//   return file2.readAsBytesSync();
+//     final file = File(filePath);
+//     await file.writeAsBytes(data);
+//     return true;
+//   } else
+//     return false;
 // }
 
 void main() {
@@ -96,10 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
-  // File? imageURI;
-  // String? imageURIWeb;
-  // Uint8List? imageMemory;
-  Uint8List? imgBytes;
+  Uint8List? imgBytesInput;
+  Uint8List? imgBytesInference;
   bool isClassifying = false;
   int _microalgaeCount = 0;
 
@@ -141,10 +126,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: <Widget>[
                         GestureDetector(
                             onTap: () async {
+                              context.loaderOverlay.show();
+
                               String imgUrl = imgList[imgList.indexOf(item)];
 
                               if (kIsWeb) {
-                                readNetworkImageWeb(imgUrl);
+                                // readNetworkImageWeb(imgUrl);
                                 // final bytes = await readNetworkImageWeb(imgUrl);
                                 // setState(() {
                                 //   imgBytes = bytes;
@@ -153,10 +140,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               } else {
                                 final bytes = await readNetworkImage(imgUrl);
                                 setState(() {
-                                  imgBytes = bytes;
+                                  imgBytesInput = bytes;
+                                  imgBytesInference = imgBytesInput;
                                   _microalgaeCount = 0;
                                 });
                               }
+                              context.loaderOverlay.hide();
 
                               print("Tapped on image ${imgList.indexOf(item)}");
                             },
@@ -202,169 +191,191 @@ class _MyHomePageState extends State<MyHomePage> {
             ))
         .toList();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                !kIsWeb ? const Text("Sample Images") : Container(),
-                !kIsWeb
-                    ? CarouselSlider(
-                        options: CarouselOptions(
-                          // height: 400,
-                          autoPlay: true,
-                          aspectRatio: 2.5,
-                          viewportFraction: 0.45,
-                          enlargeCenterPage: true,
-                          enlargeStrategy: CenterPageEnlargeStrategy.height,
-                        ),
-                        items: imageSliders,
-                      )
-                    : Container(),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("Sample Prediction"),
-                imgBytes == null
-                    ? const Text(
-                        'Select a sample image above or upload your own image by pressing the shutter icon',
-                        textAlign: TextAlign.center,
-                      )
-                    : SizedBox(
-                        height: 300,
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Image.memory(
-                            imgBytes!,
-                            fit: BoxFit.cover,
+    return LoaderOverlay(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          // actions: [
+          //   IconButton(
+          //       onPressed: () async {
+          //         try {
+          //           await writeToFile(imgBytesInference!); // <= returns File
+          //         } catch (e) {
+          //           // catch errors here
+          //           print(e);
+          //         }
+          //       },
+          //       icon: const Icon(Icons.download))
+          // ],
+        ),
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  !kIsWeb ? const Text("Sample Images") : Container(),
+                  !kIsWeb
+                      ? CarouselSlider(
+                          options: CarouselOptions(
+                            // height: 400,
+                            autoPlay: true,
+                            aspectRatio: 2.5,
+                            viewportFraction: 0.45,
+                            enlargeCenterPage: true,
+                            enlargeStrategy: CenterPageEnlargeStrategy.height,
+                          ),
+                          items: imageSliders,
+                        )
+                      : Container(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text("Sample Prediction"),
+                  imgBytesInput == null
+                      ? const Text(
+                          'Select a sample image above or upload your own image by pressing the shutter icon',
+                          textAlign: TextAlign.center,
+                        )
+                      : SizedBox(
+                          height: 300,
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: Juxtapose(
+                              showArrows: true,
+                              foregroundWidget: Image.memory(imgBytesInput!),
+                              backgroundWidget: Image.memory(
+                                  imgBytesInference ?? imgBytesInput!),
+                            ),
+                            // child: Image.memory(
+                            //   imgBytesInput!,
+                            //   fit: BoxFit.cover,
+                            // ),
                           ),
                         ),
-                      ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text("Microalgae Count: $_microalgaeCount",
-                    style: Theme.of(context).textTheme.headline6),
-                const SizedBox(height: 20),
-                RoundedLoadingButton(
-                  color: Theme.of(context).primaryColor,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: const Text('Count!',
-                      style: TextStyle(color: Colors.white)),
-                  controller: _btnController,
-                  onPressed: isClassifying || (imgBytes == null)
-                      ? null // null value disables the button
-                      : () async {
-                          setState(() {
-                            isClassifying = true;
-                          });
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text("Microalgae Count: $_microalgaeCount",
+                      style: Theme.of(context).textTheme.headline6),
+                  const SizedBox(height: 20),
+                  RoundedLoadingButton(
+                    color: Theme.of(context).primaryColor,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: const Text('Count!',
+                        style: TextStyle(color: Colors.white)),
+                    controller: _btnController,
+                    onPressed: isClassifying || (imgBytesInput == null)
+                        ? null // null value disables the button
+                        : () async {
+                            setState(() {
+                              isClassifying = true;
+                            });
 
-                          String base64Image = "data:image/png;base64," +
-                              base64Encode(imgBytes!);
+                            String base64Image = "data:image/png;base64," +
+                                base64Encode(imgBytesInput!);
 
-                          final result =
-                              await detectImage(base64Image, false, 0.5);
+                            final result =
+                                await detectImage(base64Image, false, 0.5);
 
-                          _btnController.reset();
+                            _btnController.reset();
 
-                          setState(() {
-                            _microalgaeCount = result['count'];
+                            setState(() {
+                              _microalgaeCount = result['count'];
 
-                            imgBytes = base64Decode(result['image']);
+                              imgBytesInference = base64Decode(result['image']);
 
-                            isClassifying = false;
-                          });
-                        },
-                ),
-              ],
+                              isClassifying = false;
+                            });
+                          },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.lightBlueAccent,
-        onPressed: () async {
-          if (kIsWeb) {
-            // running on the web!
-            print("Operating on web");
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.lightBlueAccent,
+          onPressed: () async {
+            if (kIsWeb) {
+              // running on the web!
+              print("Operating on web");
 
-            final pickedFile =
-                await ImagePicker().pickImage(source: ImageSource.gallery);
+              final pickedFile =
+                  await ImagePicker().pickImage(source: ImageSource.gallery);
 
-            final img = await pickedFile!.readAsBytes();
+              final img = await pickedFile!.readAsBytes();
 
-            setState(() {
-              // imageURIWeb = pickedFile!.path;
-              imgBytes = img;
-            });
-          } else {
-            showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                    height: 120,
-                    child: ListView(
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.camera),
-                          title: const Text("Camera"),
-                          onTap: () async {
-                            final XFile? pickedFile = await ImagePicker()
-                                .pickImage(source: ImageSource.camera);
+              setState(() {
+                // imageURIWeb = pickedFile!.path;
+                imgBytesInput = img;
+              });
+            } else {
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                      height: 120,
+                      child: ListView(
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.camera),
+                            title: const Text("Camera"),
+                            onTap: () async {
+                              final XFile? pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
 
-                            if (pickedFile != null) {
-                              // Clear result of previous inference as soon as new image is selected
-                              setState(() {
-                                _microalgaeCount = 0;
-                              });
+                              if (pickedFile != null) {
+                                // Clear result of previous inference as soon as new image is selected
+                                setState(() {
+                                  _microalgaeCount = 0;
+                                });
 
-                              File croppedFile = await cropImage(pickedFile);
-                              final imgFile = File(croppedFile.path);
+                                File croppedFile = await cropImage(pickedFile);
+                                final imgFile = File(croppedFile.path);
 
-                              setState(() {
-                                imgBytes = imgFile.readAsBytesSync();
-                              });
-                              Navigator.pop(context);
-                            }
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.image),
-                          title: const Text("Gallery"),
-                          onTap: () async {
-                            final XFile? pickedFile = await ImagePicker()
-                                .pickImage(source: ImageSource.gallery);
+                                setState(() {
+                                  imgBytesInput = imgFile.readAsBytesSync();
+                                  imgBytesInference = imgBytesInput;
+                                });
+                                Navigator.pop(context);
+                              }
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.image),
+                            title: const Text("Gallery"),
+                            onTap: () async {
+                              final XFile? pickedFile = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
 
-                            if (pickedFile != null) {
-                              // Clear result of previous inference as soon as new image is selected
-                              setState(() {
-                                _microalgaeCount = 0;
-                              });
+                              if (pickedFile != null) {
+                                // Clear result of previous inference as soon as new image is selected
+                                setState(() {
+                                  _microalgaeCount = 0;
+                                });
 
-                              File croppedFile = await cropImage(pickedFile);
-                              final imgFile = File(croppedFile.path);
+                                File croppedFile = await cropImage(pickedFile);
+                                final imgFile = File(croppedFile.path);
 
-                              setState(() {
-                                imgBytes = imgFile.readAsBytesSync();
-                              });
-                              Navigator.pop(context);
-                            }
-                          },
-                        )
-                      ],
-                    ));
-              },
-            );
-          }
-        },
-        child: const Icon(Icons.camera),
+                                setState(() {
+                                  imgBytesInput = imgFile.readAsBytesSync();
+                                  imgBytesInference = imgBytesInput;
+                                });
+                                Navigator.pop(context);
+                              }
+                            },
+                          )
+                        ],
+                      ));
+                },
+              );
+            }
+          },
+          child: const Icon(Icons.camera),
+        ),
       ),
     );
   }
