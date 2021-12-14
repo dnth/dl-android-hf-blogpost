@@ -8,13 +8,12 @@ import 'package:flutter_microalgae/detect_image.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:juxtapose/juxtapose.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:permission_handler/permission_handler.dart';
 
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:photo_view/photo_view.dart';
 
 final List<String> imgList = [
   'https://github.com/dnth/flutter_microalgae/blob/main/sample_images/IMG_20191212_151351.jpg?raw=true',
@@ -242,18 +241,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         )
                       : SizedBox(
                           height: 300,
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Juxtapose(
-                              showArrows: true,
-                              foregroundWidget: Image.memory(imgBytesInput!),
-                              backgroundWidget: Image.memory(
-                                  imgBytesInference ?? imgBytesInput!),
+                          child: PhotoView.customChild(
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: Juxtapose(
+                                showArrows: true,
+                                foregroundWidget: Image.memory(imgBytesInput!),
+                                backgroundWidget: Image.memory(
+                                    imgBytesInference ?? imgBytesInput!),
+                              ),
                             ),
-                            // child: Image.memory(
-                            //   imgBytesInput!,
-                            //   fit: BoxFit.cover,
-                            // ),
                           ),
                         ),
                   const SizedBox(
