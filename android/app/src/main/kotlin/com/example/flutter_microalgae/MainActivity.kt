@@ -1,4 +1,4 @@
-package com.example.flutter_microalgae
+package com.micro.sense
 
 import io.flutter.embedding.android.FlutterActivity
 
