@@ -233,7 +233,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("Sample Prediction"),
+                  imgBytesInput == null
+                      ? Container()
+                      : const Text("Sample Prediction"),
                   imgBytesInput == null
                       ? const Text(
                           'Select a sample image above or upload your own image by pressing the shutter icon',
@@ -256,8 +258,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Text("Microalgae Count: $_microalgaeCount",
-                      style: Theme.of(context).textTheme.headline6),
+                  imgBytesInput == null
+                      ? Container()
+                      : Text("Microalgae Count: $_microalgaeCount",
+                          style: Theme.of(context).textTheme.headline6),
                   const SizedBox(height: 20),
                   RoundedLoadingButton(
                     color: Theme.of(context).primaryColor,
