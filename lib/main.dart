@@ -60,11 +60,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Microalgae Detector',
+      title: 'MicroSense',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Microalgae Detector'),
+      home: const MyHomePage(title: 'MicroSense'),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -194,6 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return LoaderOverlay(
       child: Scaffold(
         appBar: AppBar(
+          leading: const Icon(Icons.menu),
           title: Text(widget.title),
           // actions: [
           //   IconButton(
