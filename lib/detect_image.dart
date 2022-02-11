@@ -6,7 +6,7 @@ Future<Map> detectImage(
   // Animefy the given image by requesting the gradio API of AnimeGANv2
   final response = await http.post(
     Uri.parse(
-        'https://hf.space/gradioiframe/dnth/webdemo-microalgae-counting/api/predict'),
+        'https://hf.space/gradioiframe/dnth/webdemo-microalgae-counting/+/api/predict/'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
