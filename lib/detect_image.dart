@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<Map> detectImage(
-    String imageBase64, bool label, double detectionThreshold) async {
-  // Animefy the given image by requesting the gradio API of AnimeGANv2
+Future<Map> detectImage(String imageBase64) async {
   final response = await http.post(
     Uri.parse(
         'https://hf.space/gradioiframe/dnth/webdemo-microalgae-counting/+/api/predict/'),
@@ -11,12 +9,7 @@ Future<Map> detectImage(
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, List<dynamic>>{
-      'data': [
-        imageBase64,
-        label,
-        true,
-        detectionThreshold
-      ] // Input Image | Label | Box | Detection Threshold
+      'data': [imageBase64]
     }),
   );
 
@@ -29,12 +22,9 @@ Future<Map> detectImage(
     return {"count": detectionResult[1], "image": imageData};
     // If the server did return a 200 CREATED response,
     // then decode the image and return it.
-    // final imageData = jsonDecode(response.body)["data"][0]
-    //     .replaceAll('data:image/png;base64,', '');
-    // return base64Decode(imageData);
   } else {
     // If the server did not return a 200 OKAY response,
     // then throw an exception.
-    throw Exception('Failed to classify image.');
+    throw Exception('Failed to get results.');
   }
 }

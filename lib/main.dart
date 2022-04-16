@@ -279,8 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             String base64Image = "data:image/png;base64," +
                                 base64Encode(imgBytesInput!);
 
-                            final result =
-                                await detectImage(base64Image, false, 0.5);
+                            final result = await detectImage(base64Image);
 
                             _btnController.reset();
 
