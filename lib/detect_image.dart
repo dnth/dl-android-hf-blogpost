@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 Future<Map> detectImage(String imageBase64) async {
   final response = await http.post(
     Uri.parse(
-        'https://hf.space/gradioiframe/dnth/webdemo-microalgae-counting/+/api/predict/'),
+        'https://hf.space/embed/dnth/webdemo-microalgae-counting/+/api/predict/'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

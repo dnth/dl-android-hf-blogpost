@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Uint8List? imgBytesInput;
   Uint8List? imgBytesInference;
   bool isClassifying = false;
-  int _microalgaeCount = 0;
+  String _microalgaeCount = "";
 
   Future<File> cropImage(XFile pickedFile) async {
     // Crop image here
@@ -141,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 setState(() {
                                   imgBytesInput = bytes;
                                   imgBytesInference = imgBytesInput;
-                                  _microalgaeCount = 0;
+                                  _microalgaeCount = "";
                                 });
                               }
                               context.loaderOverlay.hide();
@@ -331,7 +331,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               if (pickedFile != null) {
                                 // Clear result of previous inference as soon as new image is selected
                                 setState(() {
-                                  _microalgaeCount = 0;
+                                  _microalgaeCount = "";
                                 });
 
                                 File croppedFile = await cropImage(pickedFile);
@@ -355,7 +355,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               if (pickedFile != null) {
                                 // Clear result of previous inference as soon as new image is selected
                                 setState(() {
-                                  _microalgaeCount = 0;
+                                  _microalgaeCount = "";
                                 });
 
                                 File croppedFile = await cropImage(pickedFile);
