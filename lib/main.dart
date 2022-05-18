@@ -284,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             _btnController.reset();
 
                             setState(() {
-                              _microalgaeCount = result['count'];
+                              _microalgaeCount = result['count'].toString();
 
                               imgBytesInference = base64Decode(result['image']);
 
