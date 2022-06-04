@@ -14,3 +14,5 @@ By the end of this post, you will learn about:
 + Displaying the results on a Flutter Android app.
 
 Click here to [read](https://dicksonneoh.com/portfolio/how_to_deploy_od_models_on_android_with_flutter/) the blog post.
+
+![Vid](https://dicksonneoh.com/portfolio/how_to_deploy_od_models_on_android_with_flutter/algae1.webm)
