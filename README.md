@@ -15,5 +15,4 @@ By the end of this post, you will learn about:
 
 Click here to [read](https://dicksonneoh.com/portfolio/how_to_deploy_od_models_on_android_with_flutter/) the blog post.
 
-https://user-images.githubusercontent.com/6821286/172000103-0495e077-375e-4588-a95c-80e7ab0860a4.mp4
-
+![output](https://user-images.githubusercontent.com/6821286/172000166-03d0a243-3675-48d5-965b-d13d2d687f23.gif)
