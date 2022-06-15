@@ -1,5 +1,3 @@
-<a href="https://www.buymeacoffee.com/dicksonneoh" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
 # How to Deploy Object Detection Models on Android with Flutter
 
 ![Alt text](https://dicksonneoh.com/images/portfolio/how_to_deploy_od_models_on_android_with_flutter/post_image.png "a title")
@@ -15,6 +13,9 @@ By the end of this post, you will learn about:
 
 ![output](https://user-images.githubusercontent.com/6821286/172000166-03d0a243-3675-48d5-965b-d13d2d687f23.gif)
 
-
 Click here to [read](https://dicksonneoh.com/portfolio/how_to_deploy_od_models_on_android_with_flutter/) the blog post.
 
+# Support Me
+If you like what you see, help support me in producing more post like this.
+
+<a href="https://www.buymeacoffee.com/dicksonneoh" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
